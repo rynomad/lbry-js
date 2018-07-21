@@ -1,0 +1,24 @@
+{
+  "name": "lbry",
+  "version": "0.0.1",
+  "description": "JS bindings for lbry-daemon and lbrycrd",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rynomad/lbry-js.git"
+  },
+  "keywords": [
+    "lbry",
+    "json-rpc",
+    "blockchain"
+  ],
+  "author": "Ryan Bennett",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rynomad/lbry-js/issues"
+  },
+  "homepage": "https://github.com/rynomad/lbry-js#readme"
+}
