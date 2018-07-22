@@ -1,0 +1,1683 @@
+{
+    "$schema": "https://rawgit.com/mzernetsch/jrgen/master/jrgen-spec.schema.json",
+    "jrgen": "1.1",
+    "jsonrpc": "2.0",
+    "info": {
+        "title": "ExampleAPI",
+        "description": [
+            "An example api which handles various rpc requests.",
+            "This api follows the json-rpc 2.0 specification. More information available at http://www.jsonrpc.org/specification."
+        ],
+        "version": "1.0"
+    },
+    "definitions": {},
+    "methods": {
+        "blob_announce": {
+            "description": "Announce blobs to the DHT",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "announce all blobs associated with sd_hash and the sd_hash itself",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "announce all blobs associated with stream_hash",
+                        "properties": {}
+                    },
+                    "blob_hash": {
+                        "type": "string",
+                        "name": "blob_hash",
+                        "description": "announce a blob, specified by blob_hash",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if successful"
+            }
+        },
+        "blob_availability": {
+            "description": "Get blob availability",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "blob_timeout": {
+                        "type": "number",
+                        "name": "blob_timeout",
+                        "description": "how long to try downloading from a peer",
+                        "properties": {}
+                    },
+                    "search_timeout": {
+                        "type": "number",
+                        "name": "search_timeout",
+                        "description": "how long to search for peers for the blob in the dht",
+                        "properties": {}
+                    },
+                    "blob_hash": {
+                        "type": "string",
+                        "name": "blob_hash",
+                        "description": "check availability for this blob hash",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "blob_hash"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) {\n        \"is_available\": <bool, true if blob is available from a peer from peer list>\n        \"reachable_peers\": [\"<ip>:<port>\"],\n        \"unreachable_peers\": [\"<ip>:<port>\"]\n    }"
+            }
+        },
+        "blob_delete": {
+            "description": "Delete a blob",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "blob_hash": {
+                        "type": "string",
+                        "name": "blob_hash",
+                        "description": "blob hash of the blob to delete",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "blob_hash"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Success/fail message"
+            }
+        },
+        "blob_get": {
+            "description": "Download and return a blob",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "payment_rate_manager": {
+                        "type": "string",
+                        "name": "payment_rate_manager",
+                        "description": "if not given the default payment rate manager will be used. supported alternative rate managers: 'only-free'",
+                        "properties": {}
+                    },
+                    "encoding": {
+                        "type": "string",
+                        "name": "encoding",
+                        "description": "by default no attempt at decoding is made, can be set to one of the following decoders: 'json'",
+                        "properties": {}
+                    },
+                    "timeout": {
+                        "type": "number",
+                        "name": "timeout",
+                        "description": "timeout in number of seconds",
+                        "properties": {}
+                    },
+                    "blob_hash": {
+                        "type": "string",
+                        "name": "blob_hash",
+                        "description": "blob hash of the blob to get",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "blob_hash"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Success/Fail message or (dict) decoded data"
+            }
+        },
+        "blob_list": {
+            "description": "Returns blob hashes. If not given filters, returns all blobs known by the blob manager",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "number",
+                        "name": "page",
+                        "description": "page of results to return",
+                        "properties": {}
+                    },
+                    "page_size": {
+                        "type": "number",
+                        "name": "page_size",
+                        "description": "results page size",
+                        "properties": {}
+                    },
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "filter blobs by sd hash",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "filter blobs by stream hash",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "filter blobs by stream in a uri",
+                        "properties": {}
+                    },
+                    "finished": {
+                        "type": "boolean",
+                        "name": "finished",
+                        "description": "only return finished blobs",
+                        "properties": {}
+                    },
+                    "needed": {
+                        "type": "boolean",
+                        "name": "needed",
+                        "description": "only return needed blobs",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of blob hashes"
+            }
+        },
+        "blob_reflect": {
+            "description": "Reflects specified blobs",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "reflector_server": {
+                        "type": "string",
+                        "name": "reflector_server",
+                        "description": "reflector address",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) reflected blob hashes"
+            }
+        },
+        "blob_reflect_all": {
+            "description": "Reflects all saved blobs",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if successful"
+            }
+        },
+        "block_show": {
+            "description": "Get contents of a block",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "height": {
+                        "type": "number",
+                        "name": "height",
+                        "description": "height of the block to look up",
+                        "properties": {}
+                    },
+                    "blockhash": {
+                        "type": "string",
+                        "name": "blockhash",
+                        "description": "hash of the block to look up",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "blockhash",
+                    "height"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Requested block"
+            }
+        },
+        "channel_export": {
+            "description": "Export serialized channel signing information for a given certificate claim id",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "Claim ID to export information about",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "claim_id"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Serialized certificate information"
+            }
+        },
+        "channel_import": {
+            "description": "Import serialized channel signing information (to allow signing new claims to the channel)",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "serialized_certificate_info": {
+                        "type": "string",
+                        "name": "serialized_certificate_info",
+                        "description": "certificate info",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "serialized_certificate_info"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Result dictionary"
+            }
+        },
+        "channel_list": {
+            "description": "Get certificate claim infos for channels that can be published to",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) ClaimDict, includes 'is_mine' field to indicate if the certificate claim\n    is in the wallet."
+            }
+        },
+        "channel_new": {
+            "description": "Generate a publisher key and create a new '@' prefixed certificate claim",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "number",
+                        "name": "amount",
+                        "description": "bid amount on the channel",
+                        "properties": {}
+                    },
+                    "channel_name": {
+                        "type": "string",
+                        "name": "channel_name",
+                        "description": "name of the channel prefixed with '@'",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "channel_name",
+                    "amount"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing result of the claim\n    {\n        'tx' : (str) hex encoded transaction\n        'txid' : (str) txid of resulting claim\n        'nout' : (int) nout of the resulting claim\n        'fee' : (float) fee paid for the claim transaction\n        'claim_id' : (str) claim ID of the resulting claim\n    }"
+            }
+        },
+        "claim_abandon": {
+            "description": "Abandon a name and reclaim credits from the claim",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "nout": {
+                        "type": "number",
+                        "name": "nout",
+                        "description": "nout of the claim to abandon",
+                        "properties": {}
+                    },
+                    "txid": {
+                        "type": "string",
+                        "name": "txid",
+                        "description": "txid of the claim to abandon",
+                        "properties": {}
+                    },
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "claim_id of the claim to abandon",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing result of the claim\n    {\n        txid : (str) txid of resulting transaction\n        fee : (float) fee paid for the transaction\n    }"
+            }
+        },
+        "claim_list": {
+            "description": "List current claims and information about them for a given name",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "name": "name",
+                        "description": "name of the claim to list info about",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) State of claims assigned for the name\n    {\n        'claims': (list) list of claims for the name\n        [\n            {\n            'amount': (float) amount assigned to the claim\n            'effective_amount': (float) total amount assigned to the claim,\n                                including supports\n            'claim_id': (str) claim ID of the claim\n            'height': (int) height of block containing the claim\n            'txid': (str) txid of the claim\n            'nout': (int) nout of the claim\n            'permanent_url': (str) permanent url of the claim,\n            'supports': (list) a list of supports attached to the claim\n            'value': (str) the value of the claim\n            },\n        ]\n        'supports_without_claims': (list) supports without any claims attached to them\n        'last_takeover_height': (int) the height of last takeover for the name\n    }"
+            }
+        },
+        "claim_list_by_channel": {
+            "description": "Get paginated claims in a channel specified by a channel uri",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "page_size": {
+                        "type": "number",
+                        "name": "page_size",
+                        "description": "number of results in a page, default of 10",
+                        "properties": {}
+                    },
+                    "page": {
+                        "type": "number",
+                        "name": "page",
+                        "description": "which page of results to return where page 1 is the first page, defaults to no pages",
+                        "properties": {}
+                    },
+                    "uris": {
+                        "type": "number",
+                        "name": "uris",
+                        "description": "uris of the channel",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "uri of the channel",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "uri"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "{\n         resolved channel uri: {\n            If there was an error:\n            'error': (str) error message\n\n            'claims_in_channel': the total number of results for the channel,\n\n            If a page of results was requested:\n            'returned_page': page number returned,\n            'claims_in_channel': [\n                {\n                    'absolute_channel_position': (int) claim index number in sorted list of\n                                                 claims which assert to be part of the\n                                                 channel\n                    'address': (str) claim address,\n                    'amount': (float) claim amount,\n                    'effective_amount': (float) claim amount including supports,\n                    'claim_id': (str) claim id,\n                    'claim_sequence': (int) claim sequence number,\n                    'decoded_claim': (bool) whether or not the claim value was decoded,\n                    'height': (int) claim height,\n                    'depth': (int) claim depth,\n                    'has_signature': (bool) included if decoded_claim\n                    'name': (str) claim name,\n                    'supports: (list) list of supports [{'txid': (str) txid,\n                                                         'nout': (int) nout,\n                                                         'amount': (float) amount}],\n                    'txid': (str) claim txid,\n                    'nout': (str) claim nout,\n                    'signature_is_valid': (bool), included if has_signature,\n                    'value': ClaimDict if decoded, otherwise hex string\n                }\n            ],\n        }\n    }"
+            }
+        },
+        "claim_list_mine": {
+            "description": "List my name claims",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of name claims owned by user\n    [\n        {\n            'address': (str) address that owns the claim\n            'amount': (float) amount assigned to the claim\n            'blocks_to_expiration': (int) number of blocks until it expires\n            'category': (str) \"claim\", \"update\" , or \"support\"\n            'claim_id': (str) claim ID of the claim\n            'confirmations': (int) number of blocks of confirmations for the claim\n            'expiration_height': (int) the block height which the claim will expire\n            'expired': (bool) true if expired, false otherwise\n            'height': (int) height of the block containing the claim\n            'is_spent': (bool) true if claim is abandoned, false otherwise\n            'name': (str) name of the claim\n            'permanent_url': (str) permanent url of the claim,\n            'txid': (str) txid of the claim\n            'nout': (int) nout of the claim\n            'value': (str) value of the claim\n        },\n   ]"
+            }
+        },
+        "claim_new_support": {
+            "description": "Support a name claim",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "number",
+                        "name": "amount",
+                        "description": "amount of support",
+                        "properties": {}
+                    },
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "claim_id of the claim to support",
+                        "properties": {}
+                    },
+                    "name": {
+                        "type": "string",
+                        "name": "name",
+                        "description": "name of the claim to support",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "name",
+                    "claim_id",
+                    "amount"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing result of the claim\n    {\n        txid : (str) txid of resulting support claim\n        nout : (int) nout of the resulting support claim\n        fee : (float) fee paid for the transaction\n    }"
+            }
+        },
+        "claim_renew": {
+            "description": "Renew claim(s) or support(s)",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "height": {
+                        "type": "string",
+                        "name": "height",
+                        "description": "update claims expiring before or at this block height",
+                        "properties": {}
+                    },
+                    "outpoint": {
+                        "type": "string",
+                        "name": "outpoint",
+                        "description": "outpoint of the claim to renew",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "outpoint",
+                    "height"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary where key is the the original claim's outpoint and\n    value is the result of the renewal\n    {\n        outpoint:{\n\n            'tx' : (str) hex encoded transaction\n            'txid' : (str) txid of resulting claim\n            'nout' : (int) nout of the resulting claim\n            'fee' : (float) fee paid for the claim transaction\n            'claim_id' : (str) claim ID of the resulting claim\n        },\n    }"
+            }
+        },
+        "claim_send_to_address": {
+            "description": "Send a name claim to an address",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "amount<amount>": {
+                        "type": "number",
+                        "name": "amount<amount>",
+                        "description": "Amount of credits to claim name for, defaults to the current amount on the claim",
+                        "properties": {}
+                    },
+                    "address": {
+                        "type": "string",
+                        "name": "address",
+                        "description": "address to send the claim to",
+                        "properties": {}
+                    },
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "claim_id to send",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "claim_id",
+                    "address"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing result of the claim\n    {\n        'tx' : (str) hex encoded transaction\n        'txid' : (str) txid of resulting claim\n        'nout' : (int) nout of the resulting claim\n        'fee' : (float) fee paid for the claim transaction\n        'claim_id' : (str) claim ID of the resulting claim\n    }"
+            }
+        },
+        "claim_show": {
+            "description": "Resolve claim info from txid/nout or with claim ID",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "look for claim with this claim id",
+                        "properties": {}
+                    },
+                    "nout": {
+                        "type": "number",
+                        "name": "nout",
+                        "description": "look for claim with this nout, txid must also be specified",
+                        "properties": {}
+                    },
+                    "txid": {
+                        "type": "string",
+                        "name": "txid",
+                        "description": "look for claim with this txid, nout must also be specified",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing claim info as below,\n\n    {\n        'txid': (str) txid of claim\n        'nout': (int) nout of claim\n        'amount': (float) amount of claim\n        'value': (str) value of claim\n        'height' : (int) height of claim takeover\n        'claim_id': (str) claim ID of claim\n        'supports': (list) list of supports associated with claim\n    }\n\n    if claim cannot be resolved, dictionary as below will be returned\n\n    {\n        'error': (str) reason for error\n    }"
+            }
+        },
+        "cli_test_command": {
+            "description": "This command is only for testing the CLI argument parsing",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "pos_arg3": {
+                        "type": "number",
+                        "name": "pos_arg3",
+                        "description": "pos arg 3",
+                        "properties": {}
+                    },
+                    "pos_arg2": {
+                        "type": "number",
+                        "name": "pos_arg2",
+                        "description": "pos arg 2",
+                        "properties": {}
+                    },
+                    "pos_args": {
+                        "type": "number",
+                        "name": "pos_args",
+                        "description": "pos args",
+                        "properties": {}
+                    },
+                    "pos_arg": {
+                        "type": "number",
+                        "name": "pos_arg",
+                        "description": "pos arg",
+                        "properties": {}
+                    },
+                    "b_arg": {
+                        "type": "boolean",
+                        "name": "b_arg",
+                        "description": "b arg",
+                        "properties": {}
+                    },
+                    "a_arg": {
+                        "type": "boolean",
+                        "name": "a_arg",
+                        "description": "a arg",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "pos_arg"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "pos args"
+            }
+        },
+        "commands": {
+            "description": "Return a list of available commands",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) list of available commands"
+            }
+        },
+        "daemon_stop": {
+            "description": "Stop lbrynet-daemon",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(string) Shutdown message"
+            }
+        },
+        "file_delete": {
+            "description": "Delete a LBRY file",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "channel_name": {
+                        "type": "string",
+                        "name": "channel_name",
+                        "description": "delete by file channel claim name",
+                        "properties": {}
+                    },
+                    "channel_claim_id": {
+                        "type": "string",
+                        "name": "channel_claim_id",
+                        "description": "delete by file channel claim id",
+                        "properties": {}
+                    },
+                    "claim_name": {
+                        "type": "string",
+                        "name": "claim_name",
+                        "description": "delete by file claim name",
+                        "properties": {}
+                    },
+                    "nout": {
+                        "type": "number",
+                        "name": "nout",
+                        "description": "delete by file claim nout",
+                        "properties": {}
+                    },
+                    "txid": {
+                        "type": "string",
+                        "name": "txid",
+                        "description": "delete by file claim txid",
+                        "properties": {}
+                    },
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "delete by file claim id",
+                        "properties": {}
+                    },
+                    "rowid": {
+                        "type": "number",
+                        "name": "rowid",
+                        "description": "delete by file row id",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "delete by file stream hash",
+                        "properties": {}
+                    },
+                    "file_name<file_name>": {
+                        "type": "string",
+                        "name": "file_name<file_name>",
+                        "description": "delete by file name in downloads folder",
+                        "properties": {}
+                    },
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "delete by file sd hash",
+                        "properties": {}
+                    },
+                    "delete_all": {
+                        "type": "boolean",
+                        "name": "delete_all",
+                        "description": "if there are multiple matching files, allow the deletion of multiple files. Otherwise do not delete anything.",
+                        "properties": {}
+                    },
+                    "delete_from_download_dir": {
+                        "type": "boolean",
+                        "name": "delete_from_download_dir",
+                        "description": "delete file from download directory, instead of just deleting blobs",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if deletion was successful"
+            }
+        },
+        "file_list": {
+            "description": "List files limited by optional filters",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "sort": {
+                        "type": "string",
+                        "name": "sort",
+                        "description": "sort by any property, like 'file_name' or 'metadata.author'; to specify direction append ',asc' or ',desc'",
+                        "properties": {}
+                    },
+                    "full_status": {
+                        "type": "boolean",
+                        "name": "full_status",
+                        "description": "full status, populate the 'message' and 'size' fields",
+                        "properties": {}
+                    },
+                    "claim_name": {
+                        "type": "string",
+                        "name": "claim_name",
+                        "description": "get file with matching claim name",
+                        "properties": {}
+                    },
+                    "channel_name": {
+                        "type": "string",
+                        "name": "channel_name",
+                        "description": "get file with matching channel name",
+                        "properties": {}
+                    },
+                    "channel_claim_id": {
+                        "type": "string",
+                        "name": "channel_claim_id",
+                        "description": "get file with matching channel claim id",
+                        "properties": {}
+                    },
+                    "nout": {
+                        "type": "number",
+                        "name": "nout",
+                        "description": "get file with matching claim nout",
+                        "properties": {}
+                    },
+                    "txid": {
+                        "type": "string",
+                        "name": "txid",
+                        "description": "get file with matching claim txid",
+                        "properties": {}
+                    },
+                    "outpoint": {
+                        "type": "string",
+                        "name": "outpoint",
+                        "description": "get file with matching claim outpoint",
+                        "properties": {}
+                    },
+                    "claim_id": {
+                        "type": "string",
+                        "name": "claim_id",
+                        "description": "get file with matching claim id",
+                        "properties": {}
+                    },
+                    "rowid": {
+                        "type": "number",
+                        "name": "rowid",
+                        "description": "get file with matching row id",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "get file with matching stream hash",
+                        "properties": {}
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "name": "file_name",
+                        "description": "get file with matching file name in the downloads folder",
+                        "properties": {}
+                    },
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "get file with matching sd hash",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of files\n\n    [\n        {\n            'completed': (bool) true if download is completed,\n            'file_name': (str) name of file,\n            'download_directory': (str) download directory,\n            'points_paid': (float) credit paid to download file,\n            'stopped': (bool) true if download is stopped,\n            'stream_hash': (str) stream hash of file,\n            'stream_name': (str) stream name ,\n            'suggested_file_name': (str) suggested file name,\n            'sd_hash': (str) sd hash of file,\n            'download_path': (str) download path of file,\n            'mime_type': (str) mime type of file,\n            'key': (str) key attached to file,\n            'total_bytes': (int) file size in bytes, None if full_status is false,\n            'written_bytes': (int) written size in bytes,\n            'blobs_completed': (int) num_completed, None if full_status is false,\n            'blobs_in_stream': (int) None if full_status is false,\n            'status': (str) downloader status, None if full_status is false,\n            'claim_id': (str) None if full_status is false or if claim is not found,\n            'outpoint': (str) None if full_status is false or if claim is not found,\n            'txid': (str) None if full_status is false or if claim is not found,\n            'nout': (int) None if full_status is false or if claim is not found,\n            'metadata': (dict) None if full_status is false or if claim is not found,\n            'channel_claim_id': (str) None if full_status is false or if claim is not found or signed,\n            'channel_name': (str) None if full_status is false or if claim is not found or signed,\n            'claim_name': (str) None if full_status is false or if claim is not found\n        },\n    ]"
+            }
+        },
+        "file_reflect": {
+            "description": "Reflect all the blobs in a file matching the filter criteria",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "reflector": {
+                        "type": "string",
+                        "name": "reflector",
+                        "description": "reflector server, ip address or url by default choose a server from the config",
+                        "properties": {}
+                    },
+                    "rowid": {
+                        "type": "number",
+                        "name": "rowid",
+                        "description": "get file with matching row id",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "get file with matching stream hash",
+                        "properties": {}
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "name": "file_name",
+                        "description": "get file with matching file name in the downloads folder",
+                        "properties": {}
+                    },
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "get file with matching sd hash",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) list of blobs reflected"
+            }
+        },
+        "file_set_status": {
+            "description": "Start or stop downloading a file",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "rowid": {
+                        "type": "number",
+                        "name": "rowid",
+                        "description": "set status of file with matching row id",
+                        "properties": {}
+                    },
+                    "stream_hash": {
+                        "type": "string",
+                        "name": "stream_hash",
+                        "description": "set status of file with matching stream hash",
+                        "properties": {}
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "name": "file_name",
+                        "description": "set status of file with matching file name in the downloads folder",
+                        "properties": {}
+                    },
+                    "sd_hash": {
+                        "type": "string",
+                        "name": "sd_hash",
+                        "description": "set status of file with matching sd hash",
+                        "properties": {}
+                    },
+                    "status": {
+                        "type": "string",
+                        "name": "status",
+                        "description": "one of \"start\" or \"stop\"",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Confirmation message"
+            }
+        },
+        "get": {
+            "description": "Download stream from a LBRY name.",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "timeout": {
+                        "type": "number",
+                        "name": "timeout",
+                        "description": "download timeout in number of seconds",
+                        "properties": {}
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "name": "file_name",
+                        "description": "specified name for the downloaded file",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "uri of the content to download",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing information about the stream\n    {\n        'completed': (bool) true if download is completed,\n        'file_name': (str) name of file,\n        'download_directory': (str) download directory,\n        'points_paid': (float) credit paid to download file,\n        'stopped': (bool) true if download is stopped,\n        'stream_hash': (str) stream hash of file,\n        'stream_name': (str) stream name ,\n        'suggested_file_name': (str) suggested file name,\n        'sd_hash': (str) sd hash of file,\n        'download_path': (str) download path of file,\n        'mime_type': (str) mime type of file,\n        'key': (str) key attached to file,\n        'total_bytes': (int) file size in bytes, None if full_status is false,\n        'written_bytes': (int) written size in bytes,\n        'blobs_completed': (int) num_completed, None if full_status is false,\n        'blobs_in_stream': (int) None if full_status is false,\n        'status': (str) downloader status, None if full_status is false,\n        'claim_id': (str) claim id,\n        'outpoint': (str) claim outpoint string,\n        'txid': (str) claim txid,\n        'nout': (int) claim nout,\n        'metadata': (dict) claim metadata,\n        'channel_claim_id': (str) None if claim is not signed\n        'channel_name': (str) None if claim is not signed\n        'claim_name': (str) claim name\n    }"
+            }
+        },
+        "help": {
+            "description": "Return a useful message for an API command",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "command": {
+                        "type": "string",
+                        "name": "command",
+                        "description": "command to retrieve documentation for",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Help message"
+            }
+        },
+        "peer_list": {
+            "description": "Get peers for blob hash",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "timeout": {
+                        "type": "number",
+                        "name": "timeout",
+                        "description": "peer search timeout in seconds",
+                        "properties": {}
+                    },
+                    "blob_hash": {
+                        "type": "string",
+                        "name": "blob_hash",
+                        "description": "find available peers for this blob hash",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "blob_hash"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of contact dictionaries {'host': <peer ip>, 'port': <peer port>, 'node_id': <peer node id>}"
+            }
+        },
+        "peer_ping": {
+            "description": "Find and ping a peer by node id",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) pong, or {'error': <error message>} if an error is encountered"
+            }
+        },
+        "publish": {
+            "description": "Make a new name claim and publish associated data to lbrynet,\nupdate over existing claim if user already has a claim for name.\n\nFields required in the final Metadata are:\n    'title'\n    'description'\n    'author'\n    'language'\n    'license'\n    'nsfw'\n\nMetadata can be set by either using the metadata argument or by setting individual arguments\nfee, title, description, author, language, license, license_url, thumbnail, preview, nsfw,\nor sources. Individual arguments will overwrite the fields specified in metadata argument.",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "claim_address": {
+                        "type": "string",
+                        "name": "claim_address",
+                        "description": "address where the claim is sent to, if not specified new address wil automatically be created",
+                        "properties": {}
+                    },
+                    "channel_id": {
+                        "type": "string",
+                        "name": "channel_id",
+                        "description": "claim id of the publisher channel, does not check for channel claim being in the wallet. This allows publishing to a channel where only the certificate private key is in the wallet.",
+                        "properties": {}
+                    },
+                    "channel_name": {
+                        "type": "string",
+                        "name": "channel_name",
+                        "description": "name of the publisher channel name in the wallet",
+                        "properties": {}
+                    },
+                    "sources": {
+                        "type": "string",
+                        "name": "sources",
+                        "description": "{'lbry_sd_hash': sd_hash} specifies sd hash of file",
+                        "properties": {}
+                    },
+                    "nsfw": {
+                        "type": "boolean",
+                        "name": "nsfw",
+                        "description": "whether the content is nsfw",
+                        "properties": {}
+                    },
+                    "preview": {
+                        "type": "string",
+                        "name": "preview",
+                        "description": "preview url",
+                        "properties": {}
+                    },
+                    "thumbnail": {
+                        "type": "string",
+                        "name": "thumbnail",
+                        "description": "thumbnail url",
+                        "properties": {}
+                    },
+                    "license_url": {
+                        "type": "string",
+                        "name": "license_url",
+                        "description": "publication license url",
+                        "properties": {}
+                    },
+                    "license": {
+                        "type": "string",
+                        "name": "license",
+                        "description": "publication license",
+                        "properties": {}
+                    },
+                    "language": {
+                        "type": "string",
+                        "name": "language",
+                        "description": "language of the publication",
+                        "properties": {}
+                    },
+                    "author": {
+                        "type": "string",
+                        "name": "author",
+                        "description": "author of the publication",
+                        "properties": {}
+                    },
+                    "description": {
+                        "type": "string",
+                        "name": "description",
+                        "description": "description of the publication",
+                        "properties": {}
+                    },
+                    "title": {
+                        "type": "string",
+                        "name": "title",
+                        "description": "title of the publication",
+                        "properties": {}
+                    },
+                    "fee": {
+                        "type": "object",
+                        "name": "fee",
+                        "description": "Dictionary representing key fee to download content: { 'currency': currency_symbol, 'amount': decimal, 'address': str, optional } supported currencies: LBC, USD, BTC If an address is not provided a new one will be automatically generated. Default fee is zero.",
+                        "properties": {}
+                    },
+                    "file_path": {
+                        "type": "string",
+                        "name": "file_path",
+                        "description": "path to file to be associated with name. If provided, a lbry stream of this file will be used in 'sources'. If no path is given but a sources dict is provided, it will be used. If neither are provided, an error is raised.",
+                        "properties": {}
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "name": "metadata",
+                        "description": "ClaimDict to associate with the claim.",
+                        "properties": {}
+                    },
+                    "bid": {
+                        "type": "number",
+                        "name": "bid",
+                        "description": "amount to back the claim",
+                        "properties": {}
+                    },
+                    "name": {
+                        "type": "string",
+                        "name": "name",
+                        "description": "name of the content",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "name",
+                    "bid"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary containing result of the claim\n    {\n        'tx' : (str) hex encoded transaction\n        'txid' : (str) txid of resulting claim\n        'nout' : (int) nout of the resulting claim\n        'fee' : (decimal) fee paid for the claim transaction\n        'claim_id' : (str) claim ID of the resulting claim\n    }"
+            }
+        },
+        "report_bug": {
+            "description": "Report a bug to slack",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "name": "message",
+                        "description": "Description of the bug",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if successful"
+            }
+        },
+        "resolve": {
+            "description": "Resolve given LBRY URIs",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "uris": {
+                        "type": "number",
+                        "name": "uris",
+                        "description": "uris to resolve",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "uri to resolve",
+                        "properties": {}
+                    },
+                    "force": {
+                        "type": "boolean",
+                        "name": "force",
+                        "description": "force refresh and ignore cache",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "uri"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "Dictionary of results, keyed by uri\n    '<uri>': {\n            If a resolution error occurs:\n            'error': Error message\n\n            If the uri resolves to a channel or a claim in a channel:\n            'certificate': {\n                'address': (str) claim address,\n                'amount': (float) claim amount,\n                'effective_amount': (float) claim amount including supports,\n                'claim_id': (str) claim id,\n                'claim_sequence': (int) claim sequence number,\n                'decoded_claim': (bool) whether or not the claim value was decoded,\n                'height': (int) claim height,\n                'depth': (int) claim depth,\n                'has_signature': (bool) included if decoded_claim\n                'name': (str) claim name,\n                'permanent_url': (str) permanent url of the certificate claim,\n                'supports: (list) list of supports [{'txid': (str) txid,\n                                                     'nout': (int) nout,\n                                                     'amount': (float) amount}],\n                'txid': (str) claim txid,\n                'nout': (str) claim nout,\n                'signature_is_valid': (bool), included if has_signature,\n                'value': ClaimDict if decoded, otherwise hex string\n            }\n\n            If the uri resolves to a channel:\n            'claims_in_channel': (int) number of claims in the channel,\n\n            If the uri resolves to a claim:\n            'claim': {\n                'address': (str) claim address,\n                'amount': (float) claim amount,\n                'effective_amount': (float) claim amount including supports,\n                'claim_id': (str) claim id,\n                'claim_sequence': (int) claim sequence number,\n                'decoded_claim': (bool) whether or not the claim value was decoded,\n                'height': (int) claim height,\n                'depth': (int) claim depth,\n                'has_signature': (bool) included if decoded_claim\n                'name': (str) claim name,\n                'permanent_url': (str) permanent url of the claim,\n                'channel_name': (str) channel name if claim is in a channel\n                'supports: (list) list of supports [{'txid': (str) txid,\n                                                     'nout': (int) nout,\n                                                     'amount': (float) amount}]\n                'txid': (str) claim txid,\n                'nout': (str) claim nout,\n                'signature_is_valid': (bool), included if has_signature,\n                'value': ClaimDict if decoded, otherwise hex string\n            }\n    }"
+            }
+        },
+        "resolve_name": {
+            "description": "Resolve stream info from a LBRY name",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "force": {
+                        "type": "boolean",
+                        "name": "force",
+                        "description": "force refresh and do not check cache",
+                        "properties": {}
+                    },
+                    "name": {
+                        "type": "string",
+                        "name": "name",
+                        "description": "the name to resolve",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Metadata dictionary from name claim, None if the name is not\n            resolvable"
+            }
+        },
+        "routing_table_get": {
+            "description": "Get DHT routing information",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) dictionary containing routing and contact information\n    {\n        \"buckets\": {\n            <bucket index>: [\n                {\n                    \"address\": (str) peer address,\n                    \"port\": (int) peer udp port\n                    \"node_id\": (str) peer node id,\n                    \"blobs\": (list) blob hashes announced by peer\n                }\n            ]\n        },\n        \"contacts\": (list) contact node ids,\n        \"blob_hashes\": (list) all of the blob hashes stored by peers in the list of buckets,\n        \"node_id\": (str) the local dht node id\n    }"
+            }
+        },
+        "settings_get": {
+            "description": "Get daemon settings",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary of daemon settings\n    See ADJUSTABLE_SETTINGS in lbrynet/conf.py for full list of settings"
+            }
+        },
+        "settings_set": {
+            "description": "Set daemon settings",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "auto_renew_claim_height_delta": {
+                        "type": "number",
+                        "name": "auto_renew_claim_height_delta",
+                        "description": "0 claims set to expire within this many blocks will be automatically renewed after startup (if set to 0, renews will not be made automatically)",
+                        "properties": {}
+                    },
+                    "sd_download_timeout": {
+                        "type": "number",
+                        "name": "sd_download_timeout",
+                        "description": "3",
+                        "properties": {}
+                    },
+                    "peer_search_timeout": {
+                        "type": "number",
+                        "name": "peer_search_timeout",
+                        "description": "3",
+                        "properties": {}
+                    },
+                    "share_usage_data": {
+                        "type": "boolean",
+                        "name": "share_usage_data",
+                        "description": "True",
+                        "properties": {}
+                    },
+                    "reflect_uploads": {
+                        "type": "boolean",
+                        "name": "reflect_uploads",
+                        "description": "True",
+                        "properties": {}
+                    },
+                    "cache_time": {
+                        "type": "number",
+                        "name": "cache_time",
+                        "description": "150",
+                        "properties": {}
+                    },
+                    "run_reflector_server": {
+                        "type": "boolean",
+                        "name": "run_reflector_server",
+                        "description": "False",
+                        "properties": {}
+                    },
+                    "use_upnp": {
+                        "type": "boolean",
+                        "name": "use_upnp",
+                        "description": "True",
+                        "properties": {}
+                    },
+                    "disable_max_key_fee": {
+                        "type": "boolean",
+                        "name": "disable_max_key_fee",
+                        "description": "False",
+                        "properties": {}
+                    },
+                    "max_key_fee": {
+                        "type": "object",
+                        "name": "max_key_fee",
+                        "description": "maximum key fee for downloads, in the format: { 'currency': <currency_symbol>, 'amount': <amount> }. In the CLI, it must be an escaped JSON string Supported currency symbols: LBC, USD, BTC",
+                        "properties": {}
+                    },
+                    "peer_port": {
+                        "type": "number",
+                        "name": "peer_port",
+                        "description": "3333",
+                        "properties": {}
+                    },
+                    "download_timeout": {
+                        "type": "number",
+                        "name": "download_timeout",
+                        "description": "180",
+                        "properties": {}
+                    },
+                    "data_rate": {
+                        "type": "number",
+                        "name": "data_rate",
+                        "description": "0.0001",
+                        "properties": {}
+                    },
+                    "download_directory": {
+                        "type": "string",
+                        "name": "download_directory",
+                        "description": "path of download directory",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Updated dictionary of daemon settings"
+            }
+        },
+        "status": {
+            "description": "Get daemon status",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "session_status": {
+                        "type": "boolean",
+                        "name": "session_status",
+                        "description": "include session status in results",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) lbrynet-daemon status\n    {\n        'lbry_id': lbry peer id, base58,\n        'installation_id': installation id, base58,\n        'is_running': bool,\n        'is_first_run': bool,\n        'startup_status': {\n            'code': status code,\n            'message': status message\n        },\n        'connection_status': {\n            'code': connection status code,\n            'message': connection status message\n        },\n        'blockchain_status': {\n            'blocks': local blockchain height,\n            'blocks_behind': remote_height - local_height,\n            'best_blockhash': block hash of most recent block,\n        },\n        'wallet_is_encrypted': bool,\n\n        If given the session status option:\n            'session_status': {\n                'managed_blobs': count of blobs in the blob manager,\n                'managed_streams': count of streams in the file manager\n                'announce_queue_size': number of blobs currently queued to be announced\n                'should_announce_blobs': number of blobs that should be announced\n            }\n    }"
+            }
+        },
+        "stream_availability": {
+            "description": "Get stream availability for lbry uri",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "blob_timeout": {
+                        "type": "number",
+                        "name": "blob_timeout",
+                        "description": "how long to try downloading from a peer",
+                        "properties": {}
+                    },
+                    "search_timeout": {
+                        "type": "number",
+                        "name": "search_timeout",
+                        "description": "how long to search for peers for the blob in the dht",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "check availability for this uri",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "uri"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) {\n        'is_available': <bool>,\n        'did_decode': <bool>,\n        'did_resolve': <bool>,\n        'is_stream': <bool>,\n        'num_blobs_in_stream': <int>,\n        'sd_hash': <str>,\n        'sd_blob_availability': <dict> see `blob_availability`,\n        'head_blob_hash': <str>,\n        'head_blob_availability': <dict> see `blob_availability`,\n        'use_upnp': <bool>,\n        'upnp_redirect_is_set': <bool>,\n        'error': <None> | <str> error message\n    }"
+            }
+        },
+        "stream_cost_estimate": {
+            "description": "Get estimated cost for a lbry stream",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "number",
+                        "name": "size",
+                        "description": "stream size in bytes. if provided an sd blob won't be downloaded.",
+                        "properties": {}
+                    },
+                    "uri": {
+                        "type": "string",
+                        "name": "uri",
+                        "description": "uri to use",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "uri"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(float) Estimated cost in lbry credits, returns None if uri is not\n        resolvable"
+            }
+        },
+        "transaction_list": {
+            "description": "List transactions belonging to wallet",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of transactions\n\n    {\n        \"claim_info\": (list) claim info if in txn [{\n                                                \"address\": (str) address of claim,\n                                                \"balance_delta\": (float) bid amount,\n                                                \"amount\": (float) claim amount,\n                                                \"claim_id\": (str) claim id,\n                                                \"claim_name\": (str) claim name,\n                                                \"nout\": (int) nout\n                                                }],\n        \"abandon_info\": (list) abandon info if in txn [{\n                                                \"address\": (str) address of abandoned claim,\n                                                \"balance_delta\": (float) returned amount,\n                                                \"amount\": (float) claim amount,\n                                                \"claim_id\": (str) claim id,\n                                                \"claim_name\": (str) claim name,\n                                                \"nout\": (int) nout\n                                                }],\n        \"confirmations\": (int) number of confirmations for the txn,\n        \"date\": (str) date and time of txn,\n        \"fee\": (float) txn fee,\n        \"support_info\": (list) support info if in txn [{\n                                                \"address\": (str) address of support,\n                                                \"balance_delta\": (float) support amount,\n                                                \"amount\": (float) support amount,\n                                                \"claim_id\": (str) claim id,\n                                                \"claim_name\": (str) claim name,\n                                                \"is_tip\": (bool),\n                                                \"nout\": (int) nout\n                                                }],\n        \"timestamp\": (int) timestamp,\n        \"txid\": (str) txn id,\n        \"update_info\": (list) update info if in txn [{\n                                                \"address\": (str) address of claim,\n                                                \"balance_delta\": (float) credited/debited\n                                                \"amount\": (float) absolute amount,\n                                                \"claim_id\": (str) claim id,\n                                                \"claim_name\": (str) claim name,\n                                                \"nout\": (int) nout\n                                                }],\n        \"value\": (float) value of txn\n    }"
+            }
+        },
+        "transaction_show": {
+            "description": "Get a decoded transaction from a txid",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "txid": {
+                        "type": "string",
+                        "name": "txid",
+                        "description": "txid of the transaction",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "txid"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) JSON formatted transaction"
+            }
+        },
+        "utxo_list": {
+            "description": "List unspent transaction outputs",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) List of unspent transaction outputs (UTXOs)\n    [\n        {\n            \"address\": (str) the output address\n            \"amount\": (float) unspent amount\n            \"height\": (int) block height\n            \"is_claim\": (bool) is the tx a claim\n            \"is_coinbase\": (bool) is the tx a coinbase tx\n            \"is_support\": (bool) is the tx a support\n            \"is_update\": (bool) is the tx an update\n            \"nout\": (int) nout of the output\n            \"txid\": (str) txid of the output\n        },\n        ...\n    ]"
+            }
+        },
+        "version": {
+            "description": "Get lbry version information",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) Dictionary of lbry version information\n    {\n        'build': (str) build type (e.g. \"dev\", \"rc\", \"release\"),\n        'ip': (str) remote ip, if available,\n        'lbrynet_version': (str) lbrynet_version,\n        'lbryum_version': (str) lbryum_version,\n        'lbryschema_version': (str) lbryschema_version,\n        'os_release': (str) os release string\n        'os_system': (str) os name\n        'platform': (str) platform string\n        'processor': (str) processor type,\n        'python_version': (str) python version,\n    }"
+            }
+        },
+        "wallet_balance": {
+            "description": "Return the balance of the wallet",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "include_unconfirmed": {
+                        "type": "boolean",
+                        "name": "include_unconfirmed",
+                        "description": "Include unconfirmed",
+                        "properties": {}
+                    },
+                    "address": {
+                        "type": "string",
+                        "name": "address",
+                        "description": "If provided only the balance for this address will be given",
+                        "properties": {}
+                    }
+                },
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(float) amount of lbry credits in wallet"
+            }
+        },
+        "wallet_decrypt": {
+            "description": "Decrypt an encrypted wallet, this will remove the wallet password",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if wallet is decrypted, otherwise false"
+            }
+        },
+        "wallet_encrypt": {
+            "description": "Encrypt a wallet with a password, if the wallet is already encrypted this will update\nthe password",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "new_password": {
+                        "type": "string",
+                        "name": "new_password",
+                        "description": "password string to be used for encrypting wallet",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "new_password"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if wallet is decrypted, otherwise false"
+            }
+        },
+        "wallet_is_address_mine": {
+            "description": "Checks if an address is associated with the current wallet.",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "type": "string",
+                        "name": "address",
+                        "description": "address to check",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "address"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true, if address is associated with current wallet"
+            }
+        },
+        "wallet_list": {
+            "description": "List wallet addresses",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "List of wallet addresses"
+            }
+        },
+        "wallet_new_address": {
+            "description": "Generate a new wallet address",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) New wallet address in base58"
+            }
+        },
+        "wallet_prefill_addresses": {
+            "description": "Create new addresses, each containing `amount` credits",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "amount": {
+                        "type": "number",
+                        "name": "amount",
+                        "description": "initial amount in each address",
+                        "properties": {}
+                    },
+                    "num_addresses": {
+                        "type": "number",
+                        "name": "num_addresses",
+                        "description": "num of addresses to create",
+                        "properties": {}
+                    },
+                    "no_broadcast": {
+                        "type": "boolean",
+                        "name": "no_broadcast",
+                        "description": "whether to broadcast or not",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "num_addresses",
+                    "amount"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(dict) the resulting transaction"
+            }
+        },
+        "wallet_public_key": {
+            "description": "Get public key from wallet address",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "type": "string",
+                        "name": "address",
+                        "description": "address for which to get the public key",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "address"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(list) list of public keys associated with address.\n        Could contain more than one public key if multisig."
+            }
+        },
+        "wallet_send": {
+            "description": "Send credits. If given an address, send credits to it. If given a claim id, send a tip\nto the owner of a claim specified by uri. A tip is a claim support where the recipient\nof the support is the claim address for the claim being supported.",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "claim_id": {
+                        "type": "number",
+                        "name": "claim_id",
+                        "description": "claim_id of the claim to send to tip to",
+                        "properties": {}
+                    },
+                    "address": {
+                        "type": "string",
+                        "name": "address",
+                        "description": "address to send credits to",
+                        "properties": {}
+                    },
+                    "amount": {
+                        "type": "number",
+                        "name": "amount",
+                        "description": "amount of credit to send",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "amount",
+                    "address",
+                    "claim_id"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "If sending to an address:\n    (bool) true if payment successfully scheduled\n\n    If sending a claim tip:\n    (dict) Dictionary containing the result of the support\n    {\n        txid : (str) txid of resulting support claim\n        nout : (int) nout of the resulting support claim\n        fee : (float) fee paid for the transaction\n    }"
+            }
+        },
+        "wallet_unlock": {
+            "description": "Unlock an encrypted wallet",
+            "params": {
+                "type": "object",
+                "properties": {
+                    "password": {
+                        "type": "string",
+                        "name": "password",
+                        "description": "password for unlocking wallet",
+                        "properties": {}
+                    }
+                },
+                "required": [
+                    "password"
+                ]
+            },
+            "result": {
+                "type": "string",
+                "description": "(bool) true if wallet is unlocked, otherwise false"
+            }
+        },
+        "wallet_unused_address": {
+            "description": "Return an address containing no balance, will create\na new address if there is none.",
+            "params": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            },
+            "result": {
+                "type": "string",
+                "description": "(str) Unused wallet address in base58"
+            }
+        }
+    }
+}
