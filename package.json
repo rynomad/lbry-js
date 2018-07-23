@@ -21,8 +21,7 @@
     "url": "https://github.com/rynomad/lbry-js/issues"
   },
   "homepage": "https://github.com/rynomad/lbry-js#readme",
-  "dependencies": {
-    "base64-js": "^1.3.0",
+  "devDependencies": {
     "fetch-headers": "^2.0.0",
     "jrgen": "git+https://github.com/rynomad/jrgen.git",
     "node-fetch": "^2.2.0"

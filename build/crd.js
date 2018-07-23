@@ -1,5 +1,3 @@
-
-const base64 = require('base64-js')
 class CrdRPCClient {
   constructor(url, username, password) {
     this.username = username
