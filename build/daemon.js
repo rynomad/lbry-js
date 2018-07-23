@@ -20,7 +20,7 @@ class RPCClient {
           if (response.ok) {
             response.json().then(rpcResponse => {
               if ("error" in rpcResponse) {
-                this.help({ method })
+                this.help({ command : method })
                   .then(({ help }) => {
                     console.log(`${method}`);
                     console.log(method.replace(/./g, "_"));
