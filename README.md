@@ -40,10 +40,11 @@ $ node scripts/jrgen.js tmp.json > lbry.schema.json && mv ExampleAPIClient.js bu
 
 Roadmap to 0.1.0
 ---
-
-* [x] programmatic generation of lbry-daemon client
+* [x] basic client.request(<\method_name\>, [params]) lbrycrd client
+* [x] programmatic generation of full lbry-daemon client
 * [ ] lbry-daemon api tests
 * [ ] programmatic generation of lbrycrd client
+* [ ] lbrycrd api tests
 * [ ] don't use a custom fork of jrgen; use plugin system
 * [ ] jrgen generator for client documentation
 * [ ] test automation
