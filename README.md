@@ -42,7 +42,9 @@ Roadmap to 0.1.0
 ---
 
 * [x] programmatic generation of lbry-daemon client
+* [ ] lbry-daemon api tests
 * [ ] programmatic generation of lbrycrd client
 * [ ] don't use a custom fork of jrgen; use plugin system
 * [ ] jrgen generator for client documentation
-* [ ] automate builds from lbry CI
+* [ ] test automation
+* [ ] build automation
