@@ -24,6 +24,10 @@ const client = new DaemonClient('http://localhost:5279')
 client.wallet_list().then(list => console.log(list))
 
 client.help({command : "blob_announce"}).then(({help}) => console.log(help))
+
+const crd = new CrdClient('http://localhost:9245', 'rpcuser', 'rpcpass')
+
+crd.request('getinfo').then(info => console.log(info))
 ```
 
 Building
