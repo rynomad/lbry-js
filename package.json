@@ -24,6 +24,7 @@
   "devDependencies": {
     "fetch-headers": "^2.0.0",
     "jrgen": "git+https://github.com/rynomad/jrgen.git",
+    "mocha": "^5.2.0",
     "node-fetch": "^2.2.0"
   }
 }

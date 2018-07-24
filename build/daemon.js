@@ -20,16 +20,16 @@ class RPCClient {
           if (response.ok) {
             response.json().then(rpcResponse => {
               if ("error" in rpcResponse) {
+                const error = {
+                  message : rpcResponse.error
+                }
                 this.help({ command : method })
                   .then(({ help }) => {
-                    console.log(`${method}`);
-                    console.log(method.replace(/./g, "_"));
-                    console.log(help);
-                    console.error("Error:", rpcResponse.error.message);
-                    reject(rpcResponse.error);
+                    error.help = help
+                    reject(error);
                   })
                   .catch(error => {
-                    reject(rpcResponse.error);
+                    reject(error);
                   });
               } else {
                 resolve(rpcResponse.result);

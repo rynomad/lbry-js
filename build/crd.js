@@ -26,6 +26,7 @@ class CrdRPCClient {
           if (response.ok) {
             response.json().then(rpcResponse => {
               if (rpcResponse.error) {
+
                 reject(rpcResponse.error);
               } else {
                 resolve(rpcResponse.result);
@@ -43,6 +44,7 @@ class CrdRPCClient {
           }
         })
         .catch(error => {
+          console.log(error)
           reject({
             code: -1,
             message: "Network error"
