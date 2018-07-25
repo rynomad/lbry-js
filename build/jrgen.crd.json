@@ -1,0 +1,343 @@
+{
+    "$schema": "https://rawgit.com/mzernetsch/jrgen/master/jrgen-spec.schema.json",
+    "jrgen": "1.1",
+    "jsonrpc": "2.0",
+    "info": {
+        "title": "LbryCrd",
+        "description": [
+            "An example api which handles various rpc requests.",
+            "This api follows the json-rpc 2.0 specification. More information available at http://www.jsonrpc.org/specification."
+        ],
+        "version": "1.0"
+    },
+    "definitions": {},
+    "methods": {
+        "abandonclaim": {
+            "description": "abandonclaim \"txid\" \"lbrycrdaddress\" \"amount\""
+        },
+        "abandonsupport": {
+            "description": "abandonsupport \"txid\" \"lbrycrdaddress\" \"amount\""
+        },
+        "claimname": {
+            "description": "claimname \"name\" \"value\" amount"
+        },
+        "getclaimbyid": {
+            "description": "getclaimbyid"
+        },
+        "getclaimsforname": {
+            "description": "getclaimsforname"
+        },
+        "getclaimsfortx": {
+            "description": "getclaimsfortx"
+        },
+        "getclaimsintrie": {
+            "description": "getclaimsintrie"
+        },
+        "getclaimtrie": {
+            "description": "getclaimtrie"
+        },
+        "getnameproof": {
+            "description": "getnameproof"
+        },
+        "gettotalclaimednames": {
+            "description": "gettotalclaimednames"
+        },
+        "gettotalclaims": {
+            "description": "gettotalclaims"
+        },
+        "gettotalvalueofclaims": {
+            "description": "gettotalvalueofclaims"
+        },
+        "getvalueforname": {
+            "description": "getvalueforname \"name\""
+        },
+        "listnameclaims": {
+            "description": "listnameclaims includesuppports activeonly minconf"
+        },
+        "supportclaim": {
+            "description": "supportclaim \"name\" \"claimid\" \"amount\""
+        },
+        "updateclaim": {
+            "description": "updateclaim \"txid\" \"value\" amount"
+        },
+        "getbestblockhash": {
+            "description": "getbestblockhash"
+        },
+        "getblock": {
+            "description": "getblock \"hash\" ( verbose )"
+        },
+        "getblockchaininfo": {
+            "description": "getblockchaininfo"
+        },
+        "getblockcount": {
+            "description": "getblockcount"
+        },
+        "getblockhash": {
+            "description": "getblockhash index"
+        },
+        "getblockheader": {
+            "description": "getblockheader \"hash\" ( verbose )"
+        },
+        "getchaintips": {
+            "description": "getchaintips"
+        },
+        "getdifficulty": {
+            "description": "getdifficulty"
+        },
+        "getmempoolinfo": {
+            "description": "getmempoolinfo"
+        },
+        "getrawmempool": {
+            "description": "getrawmempool ( verbose )"
+        },
+        "gettxout": {
+            "description": "gettxout \"txid\" n ( includemempool )"
+        },
+        "gettxoutproof": {
+            "description": "gettxoutproof [\"txid\",...] ( blockhash )"
+        },
+        "gettxoutsetinfo": {
+            "description": "gettxoutsetinfo"
+        },
+        "verifychain": {
+            "description": "verifychain ( checklevel numblocks )"
+        },
+        "verifytxoutproof": {
+            "description": "verifytxoutproof \"proof\""
+        },
+        "getinfo": {
+            "description": "getinfo"
+        },
+        "help": {
+            "description": "help ( \"command\" )"
+        },
+        "stop": {
+            "description": "stop"
+        },
+        "generate": {
+            "description": "generate numblocks ( maxtries )"
+        },
+        "generatetoaddress": {
+            "description": "generatetoaddress numblocks address (maxtries)"
+        },
+        "getblocktemplate": {
+            "description": "getblocktemplate ( \"jsonrequestobject\" )"
+        },
+        "getgenerate": {
+            "description": "getgenerate"
+        },
+        "gethashespersec": {
+            "description": "gethashespersec"
+        },
+        "getmininginfo": {
+            "description": "getmininginfo"
+        },
+        "getnetworkhashps": {
+            "description": "getnetworkhashps ( blocks height )"
+        },
+        "prioritisetransaction": {
+            "description": "prioritisetransaction <txid> <priority delta> <fee delta>"
+        },
+        "setgenerate": {
+            "description": "setgenerate generate ( genproclimit )"
+        },
+        "submitblock": {
+            "description": "submitblock \"hexdata\" ( \"jsonparametersobject\" )"
+        },
+        "addnode": {
+            "description": "addnode \"node\" \"add|remove|onetry\""
+        },
+        "clearbanned": {
+            "description": "clearbanned"
+        },
+        "disconnectnode": {
+            "description": "disconnectnode \"node\" "
+        },
+        "getaddednodeinfo": {
+            "description": "getaddednodeinfo dns ( \"node\" )"
+        },
+        "getconnectioncount": {
+            "description": "getconnectioncount"
+        },
+        "getnettotals": {
+            "description": "getnettotals"
+        },
+        "getnetworkinfo": {
+            "description": "getnetworkinfo"
+        },
+        "getpeerinfo": {
+            "description": "getpeerinfo"
+        },
+        "listbanned": {
+            "description": "listbanned"
+        },
+        "ping": {
+            "description": "ping"
+        },
+        "setban": {
+            "description": "setban \"ip(/netmask)\" \"add|remove\" (bantime) (absolute)"
+        },
+        "createrawtransaction": {
+            "description": "createrawtransaction [{\"txid\":\"id\",\"vout\":n},...] {\"address\":amount,\"data\":\"hex\",...} ( locktime )"
+        },
+        "decoderawtransaction": {
+            "description": "decoderawtransaction \"hexstring\""
+        },
+        "decodescript": {
+            "description": "decodescript \"hex\""
+        },
+        "fundrawtransaction": {
+            "description": "fundrawtransaction \"hexstring\" ( options )"
+        },
+        "getrawtransaction": {
+            "description": "getrawtransaction \"txid\" ( verbose )"
+        },
+        "sendrawtransaction": {
+            "description": "sendrawtransaction \"hexstring\" ( allowhighfees )"
+        },
+        "signrawtransaction": {
+            "description": "signrawtransaction \"hexstring\" ( [{\"txid\":\"id\",\"vout\":n,\"scriptPubKey\":\"hex\",\"redeemScript\":\"hex\"},...] [\"privatekey1\",...] sighashtype )"
+        },
+        "createmultisig": {
+            "description": "createmultisig nrequired [\"key\",...]"
+        },
+        "estimatefee": {
+            "description": "estimatefee nblocks"
+        },
+        "estimatepriority": {
+            "description": "estimatepriority nblocks"
+        },
+        "estimatesmartfee": {
+            "description": "estimatesmartfee nblocks"
+        },
+        "estimatesmartpriority": {
+            "description": "estimatesmartpriority nblocks"
+        },
+        "validateaddress": {
+            "description": "validateaddress \"lbrycrdaddress\""
+        },
+        "verifymessage": {
+            "description": "verifymessage \"lbrycrdaddress\" \"signature\" \"message\""
+        },
+        "abandontransaction": {
+            "description": "abandontransaction \"txid\""
+        },
+        "addmultisigaddress": {
+            "description": "addmultisigaddress nrequired [\"key\",...] ( \"account\" )"
+        },
+        "backupwallet": {
+            "description": "backupwallet \"destination\""
+        },
+        "dumpprivkey": {
+            "description": "dumpprivkey \"lbrycrdaddress\""
+        },
+        "dumpwallet": {
+            "description": "dumpwallet \"filename\""
+        },
+        "encryptwallet": {
+            "description": "encryptwallet \"passphrase\""
+        },
+        "getaccount": {
+            "description": "getaccount \"lbrycrdaddress\""
+        },
+        "getaccountaddress": {
+            "description": "getaccountaddress \"account\""
+        },
+        "getaddressesbyaccount": {
+            "description": "getaddressesbyaccount \"account\""
+        },
+        "getbalance": {
+            "description": "getbalance ( \"account\" minconf includeWatchonly )"
+        },
+        "getnewaddress": {
+            "description": "getnewaddress ( \"account\" )"
+        },
+        "getrawchangeaddress": {
+            "description": "getrawchangeaddress"
+        },
+        "getreceivedbyaccount": {
+            "description": "getreceivedbyaccount \"account\" ( minconf )"
+        },
+        "getreceivedbyaddress": {
+            "description": "getreceivedbyaddress \"lbrycrdaddress\" ( minconf )"
+        },
+        "gettransaction": {
+            "description": "gettransaction \"txid\" ( includeWatchonly )"
+        },
+        "getunconfirmedbalance": {
+            "description": "getunconfirmedbalance"
+        },
+        "getwalletinfo": {
+            "description": "getwalletinfo"
+        },
+        "importaddress": {
+            "description": "importaddress \"address\" ( \"label\" rescan p2sh )"
+        },
+        "importprivkey": {
+            "description": "importprivkey \"lbrycrdprivkey\" ( \"label\" rescan )"
+        },
+        "importprunedfunds": {
+            "description": "importprunedfunds"
+        },
+        "importpubkey": {
+            "description": "importpubkey \"pubkey\" ( \"label\" rescan )"
+        },
+        "importwallet": {
+            "description": "importwallet \"filename\""
+        },
+        "keypoolrefill": {
+            "description": "keypoolrefill ( newsize )"
+        },
+        "listaccounts": {
+            "description": "listaccounts ( minconf includeWatchonly)"
+        },
+        "listaddressgroupings": {
+            "description": "listaddressgroupings"
+        },
+        "listlockunspent": {
+            "description": "listlockunspent"
+        },
+        "listreceivedbyaccount": {
+            "description": "listreceivedbyaccount ( minconf includeempty includeWatchonly)"
+        },
+        "listreceivedbyaddress": {
+            "description": "listreceivedbyaddress ( minconf includeempty includeWatchonly)"
+        },
+        "listsinceblock": {
+            "description": "listsinceblock ( \"blockhash\" target-confirmations includeWatchonly)"
+        },
+        "listtransactions": {
+            "description": "listtransactions ( \"account\" count from includeWatchonly)"
+        },
+        "listunspent": {
+            "description": "listunspent ( minconf maxconf  [\"address\",...] )"
+        },
+        "lockunspent": {
+            "description": "lockunspent unlock ([{\"txid\":\"txid\",\"vout\":n},...])"
+        },
+        "move": {
+            "description": "move \"fromaccount\" \"toaccount\" amount ( minconf \"comment\" )"
+        },
+        "removeprunedfunds": {
+            "description": "removeprunedfunds \"txid\""
+        },
+        "sendfrom": {
+            "description": "sendfrom \"fromaccount\" \"tolbrycrdaddress\" amount ( minconf \"comment\" \"comment-to\" )"
+        },
+        "sendmany": {
+            "description": "sendmany \"fromaccount\" {\"address\":amount,...} ( minconf \"comment\" [\"address\",...] )"
+        },
+        "sendtoaddress": {
+            "description": "sendtoaddress \"lbrycrdaddress\" amount ( \"comment\" \"comment-to\" subtractfeefromamount )"
+        },
+        "setaccount": {
+            "description": "setaccount \"lbrycrdaddress\" \"account\""
+        },
+        "settxfee": {
+            "description": "settxfee amount"
+        },
+        "signmessage": {
+            "description": "signmessage \"lbrycrdaddress\" \"message\""
+        }
+    }
+}

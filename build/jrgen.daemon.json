@@ -3,7 +3,7 @@
     "jrgen": "1.1",
     "jsonrpc": "2.0",
     "info": {
-        "title": "ExampleAPI",
+        "title": "LbryDaemon",
         "description": [
             "An example api which handles various rpc requests.",
             "This api follows the json-rpc 2.0 specification. More information available at http://www.jsonrpc.org/specification."
