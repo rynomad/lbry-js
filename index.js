@@ -1,5 +1,5 @@
-const DaemonClient = require('./build/daemon.js')
-const CrdClient = require('./build/crd.js')
+const DaemonClient = require('./build/LbryDaemonClient.js')
+const CrdClient = require('./build/LbryCrdClient.js')
 
 module.exports = {
   DaemonClient,

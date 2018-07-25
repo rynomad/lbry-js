@@ -44,7 +44,7 @@ async function start(){
     const jsonpath = path.join(__dirname,'..','build','jrgen.crd.json')
     const jrgenpath = path.join(__dirname, '..','node_modules','.bin','jrgen')
     fs.writeFileSync(jsonpath, JSON.stringify(api,null,4))
-    execSync(`${jrgenpath} client/es6 ${jsonpath} && mv LbryCrdClient.js build/crd.js`)
+    execSync(`${jrgenpath} client/es6 ${jsonpath} && mv LbryCrdClient.js build`)
     console.log(JSON.stringify(api,null,4))
   } catch(e){
     console.log(e)

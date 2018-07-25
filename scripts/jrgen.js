@@ -1,5 +1,7 @@
 var methods = require('fs').readFileSync(process.argv.pop()).toString().split('\n').filter(t => t).map(a => JSON.parse(a))
-
+const path = require('path')
+const fs = require('fs')
+const {execSync} = require('child_process')
 
 const api = {
   "$schema":
@@ -8,7 +10,7 @@ const api = {
   "jsonrpc": "2.0",
 
   "info": {
-    "title": "ExampleAPI",
+    "title": "LbryDaemon",
     "description": [
       "An example api which handles various rpc requests.",
       "This api follows the json-rpc 2.0 specification. More information available at http://www.jsonrpc.org/specification."
@@ -56,7 +58,11 @@ methods.forEach(({name, description, arguments, returns}) => {
   }
 })
 
-console.log(JSON.stringify(api, null, 4))
+const jsonpath = path.join(__dirname,'..','build','jrgen.daemon.json')
+const jrgenpath = path.join(__dirname, '..','node_modules','.bin','jrgen')
+fs.writeFileSync(jsonpath, JSON.stringify(api,null,4))
+execSync(`${jrgenpath} client/es6 ${jsonpath} && mv LbryDaemonClient.js build`)
+console.log(JSON.stringify(api, null, 4)) 
 
 /*
 
