@@ -5,7 +5,9 @@
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test",
+    "build": "python ./scripts/jrgen.py > build/lbry.pygen.json && node ./scripts/jrgen.js",
+    "setup": "mkdir build && cd jrgen-plugin-lbry && npm link && cd .. & npm link jrgen-plugin-lbry"
   },
   "repository": {
     "type": "git",

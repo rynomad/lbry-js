@@ -3,7 +3,7 @@ global.fetch = require('node-fetch')
 const {execSync} = require('child_process')
 const fs = require('fs')
 const path = require('path')
-const {CrdClient} = require('../index.js')
+const CrdClient = require('../build/LbryDaemonClient.js')
 
 const client = new CrdClient('http://localhost:9245','testtest','testtest')
 
@@ -44,8 +44,7 @@ async function start(){
     const jsonpath = path.join(__dirname,'..','build','jrgen.crd.json')
     const jrgenpath = path.join(__dirname, '..','node_modules','.bin','jrgen')
     fs.writeFileSync(jsonpath, JSON.stringify(api,null,4))
-    execSync(`${jrgenpath} client/es6 ${jsonpath} && mv LbryCrdClient.js build`)
-    console.log(JSON.stringify(api,null,4))
+    execSync(`${jrgenpath} lbry/client ${jsonpath} && mv LbryCrdClient.js build`)
   } catch(e){
     console.log(e)
   }
