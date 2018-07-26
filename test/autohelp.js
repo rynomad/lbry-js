@@ -14,27 +14,29 @@ describe('AutoHelp runs on all methods', () => {
       it(method_name, async function (){
         try {
           const fail = await daemon[method_name]({unsupported_param : 'should throw error'})
-          assert(false)
+
+          if (['settings_set','file_list','file_delete'].indexOf(method_name) === -1){
+            // possible bug in lbry-daemon; I expect unsupported_param to always force error
+            assert(false)
+          }
         } catch (e){
-          if (!e.help) console.log(e)
           assert(e.help)
         }
       })
     })
   })
-/*
+
   describe('Crd', () => {
     Object.keys(jrgen_crd.methods).forEach(method_name => {
       it(method_name, async function (){
         try {
           const fail = await crd[method_name]({unsupported_param : 'should throw error'})
         } catch (e){
-          console.log('did throw?', e)
           assert(e.help)
         }
       })
     })
   })
-*/
+
 })
 

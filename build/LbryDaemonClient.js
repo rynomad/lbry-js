@@ -1,3 +1,5 @@
+const api = "LbryDaemon";
+
 class RPCClient {
   constructor(url, username, password) {
     this.username = username;
@@ -30,15 +32,16 @@ class RPCClient {
         })
       })
         .then(response => {
-          if (response.ok) {
+          if (response.ok || response.statusText === "Bad Request") {
             response.json().then(rpcResponse => {
               if (rpcResponse.error) {
                 const error = {
                   message: rpcResponse.error
                 };
-                this.help({ command: method })
-                  .then(({ help }) => {
-                    error.help = help;
+                const args = api === "LbryCrd" ? [method] : { command: method };
+                this.help(args)
+                  .then(response => {
+                    error.help = response.help || response;
                     reject(error);
                   })
                   .catch(error => {
