@@ -1,7 +1,7 @@
 LBRY-JS
 ===
 
-lbry-js is a small JavaScript client library for interacting with lbry-daemon and lbrycrd via the JSON-RPC api. 
+lbry-js is a small JavaScript client library for interacting with lbry-daemon and lbrycrd via the JSON-RPC api. works in node.js and the browser (via webpack or similar).
 
 Usage
 ---
@@ -9,7 +9,7 @@ Usage
 npm install --save lbry
 ```
 
-lbry-js can be used in node.js and the browser (via webpack or similar), the api's are similar but slightly different. The daemon accepts arguments as an object, wheras since LbryCrd expects them as an array, you must pass them as an ordered array. see (the RPC docs)[https://lbryio.github.io/lbry/] for the parameters for each method on the corresponding clients.
+ Lbry-js supports both the LBRY daemon and LbryCrd; the api's are similar but slightly different. The daemon accepts arguments as an object, wheras since LbryCrd expects them as an array, you must pass them as an ordered array. see (the RPC docs)[https://lbryio.github.io/lbry/] for the parameters for each method on the corresponding clients.
 
 
 
