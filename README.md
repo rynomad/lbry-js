@@ -49,7 +49,7 @@ Roadmap to 0.1.0
 * [x] lbry-daemon api tests
 * [x] programmatic generation of lbrycrd client
 * [x] lbrycrd api tests
-* [ ] don't use a custom fork of jrgen; use plugin system
+* [x] don't use a custom fork of jrgen; use plugin system
 * [ ] jrgen generator for client documentation
-* [ ] test automation
-* [ ] build automation
+* [ ] npm test script
+* [ ] npm build script

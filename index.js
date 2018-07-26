@@ -1,7 +1,4 @@
-const DaemonClient = require('./build/LbryDaemonClient.js')
-const CrdClient = require('./build/LbryCrdClient.js')
+global.fetch = require('node-fetch')
+global.Headers = require('fetch-headers')
 
-module.exports = {
-  DaemonClient,
-  CrdClient
-}
+module.exports = require('./browser.js')

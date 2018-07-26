@@ -3,6 +3,7 @@
   "version": "0.0.5",
   "description": "JS bindings for lbry-daemon and lbrycrd",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,10 +22,12 @@
     "url": "https://github.com/rynomad/lbry-js/issues"
   },
   "homepage": "https://github.com/rynomad/lbry-js#readme",
-  "devDependencies": {
+  "dependencies": {
     "fetch-headers": "^2.0.0",
-    "jrgen": "git+https://github.com/rynomad/jrgen.git",
-    "mocha": "^5.2.0",
     "node-fetch": "^2.2.0"
+  },
+  "devDependencies": {
+    "jrgen": "^2.0.0",
+    "mocha": "^5.2.0"
   }
 }
