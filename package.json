@@ -1,6 +1,6 @@
 {
   "name": "lbry",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JS bindings for lbry-daemon and lbrycrd",
   "main": "index.js",
   "browser": "browser.js",
