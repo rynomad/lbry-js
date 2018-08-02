@@ -9,7 +9,7 @@ Usage
 npm install --save lbry
 ```
 
- Lbry-js supports both the LBRY daemon and LbryCrd; the api's are similar but slightly different. The daemon accepts arguments as an object, wheras since LbryCrd expects them as an array, you must pass them as an ordered array. see (the RPC docs)[https://lbryio.github.io/lbry/] for the parameters for each method on the corresponding clients.
+ Lbry-js supports both the LBRY daemon and LbryCrd; the api's are similar but slightly different. The daemon accepts arguments as an object, wheras since LbryCrd expects them as an array, you must pass them as an ordered array. see [the RPC docs](https://lbryio.github.io/lbry/) for the parameters for each method on the corresponding clients.
 
 
 
