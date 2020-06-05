@@ -240,6 +240,9 @@ class RPCClient {
   wallet_unused_address(params) {
     return this.request("wallet_unused_address", params);
   }
+  claim_search(params) {
+    return this.request("claim_search", params);
+  }
 }
 
 module.exports = RPCClient;
