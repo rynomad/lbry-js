@@ -243,6 +243,9 @@ class RPCClient {
   claim_search(params) {
     return this.request("claim_search", params);
   }
+  account_create(params) {
+    return this.request("account_create", params);
+  }
 }
 
 module.exports = RPCClient;
